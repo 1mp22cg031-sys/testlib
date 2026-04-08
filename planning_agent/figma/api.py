@@ -20,11 +20,6 @@ def fetch_figma_data():
         response = requests.get(url, headers=headers)
         response = requests.get(url, headers=headers)
 
-        print("🔍 Token:", token)
-        print("🔍 File ID:", file_id)
-        print("🔍 URL:", url)
-        print("🔍 Status Code:", response.status_code)
-        print("🔍 Response:", response.text)
         if response.status_code == 200:
             return response.json()
         elif response.status_code == 429:
