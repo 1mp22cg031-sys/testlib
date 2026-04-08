@@ -15,29 +15,23 @@ headers = {
 CACHE_FILE = "data/input/figma_raw.json"
 
 
-def fetch_figma_data():
-    for _ in range(5):
-        response = requests.get(url, headers=headers)
-        response = requests.get(url, headers=headers)
+def fetch_figma_data(token, file_id):
+    url = f"https://api.figma.com/v1/files/{file_id}"
+    headers = {"X-Figma-Token": token}
 
-        if response.status_code == 200:
-            return response.json()
-        elif response.status_code == 429:
-            time.sleep(5)
+    response = requests.get(url, headers=headers)
 
-    raise Exception("Failed to fetch Figma data")
+    print("🔍 Status Code:", response.status_code)
+    print("🔍 Response:", response.text)
+
+    return response.json()
 
 
-def get_figma_data():
-    if os.path.exists(CACHE_FILE):
-        with open(CACHE_FILE, "r") as f:
-            return json.load(f)
+def get_figma_data(token=None, file_id=None):
+    token = token or os.getenv("FIGMA_TOKEN")
+    file_id = file_id or os.getenv("FIGMA_FILE_ID")
 
-    data = fetch_figma_data()
+    print("🔍 Token:", token)
+    print("🔍 File ID:", file_id)
 
-    os.makedirs("data/input", exist_ok=True)
-
-    with open(CACHE_FILE, "w") as f:
-        json.dump(data, f)
-
-    return data
+    return fetch_figma_data(token, file_id)
