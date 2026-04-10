@@ -5,7 +5,6 @@ import torch
 class LLMClient:
     def __init__(self, model_name="mistralai/Mistral-7B-Instruct-v0.1"):
         print("🔄 Loading Mistral 7B...")
-
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
 
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
